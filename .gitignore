@@ -1,0 +1,92 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Dependency directories (remove the comment below to include it)
+# vendor/
+
+# IDE files
+.idea/
+
+# Build artifacts
+**/dist
+
+# Log files
+*.log
+
+# Directories used by tools like godep
+Godeps/
+
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+*.o
+*.a
+*.s
+
+# Folders
+_obj
+_test
+
+# Architecture specific extensions/prefixes
+*.[568vq]
+[568vq].out
+
+*.cgo1.go
+*.cgo2.c
+_cgo_defun.c
+_cgo_gotypes.go
+_cgo_export.*
+
+_testmain.go
+
+# Files produced by MacOS
+.DS_Store
+
+# Files produced by Windows
+Thumbs.db
+
+# Files produced by Linux
+*~
+
+# Go build cache
+go-build/
+
+# Certificate files
+*.crt
+*.key
+
+# dotenv environment variables file
+.env
+
+# Debug output
+debug/
+
+# Kubernetes
+.kube/
+
+# Helm
+.helm/
+
+# Terraform
+.terraform/
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# JetBrains IDE
+.idea/
+
+# Swap files
+*.swp
+*.swo
+
+# End of https://www.gitignore.io/api/go,vim,emacs,visualstudiocode
