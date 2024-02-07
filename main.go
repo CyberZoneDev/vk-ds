@@ -29,7 +29,7 @@ func main() {
 	defer discordbot.Close()
 
 	vkbot.WallPostNew(func(ctx context.Context, obj events.WallPostNewObject) {
-		sortedtext := utils.SortTags(string(obj.Text))
+		sortedtext := utils.SortTags(string(obj.Text), int(obj.OwnerID))
 		group, err := vkbot.VK.GroupsGetByID(api.Params{"group_id": -obj.OwnerID})
 		if err != nil {
 			log.Fatalf("Error getting group name: %s", err)

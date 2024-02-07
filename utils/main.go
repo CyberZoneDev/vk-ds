@@ -8,7 +8,7 @@ import (
 	re "github.com/dlclark/regexp2"
 )
 
-func SortTags(text string) string {
+func SortTags(text string, groupID int) string {
 	var (
 		mentions     = re.MustCompile(`\[([^\s\|]+)+\|(.*?)\]`, 0)
 		subReg       = re.MustCompile(`^(?=id|club).*`, 0)
@@ -38,7 +38,7 @@ func SortTags(text string) string {
 	for result != nil {
 		r0 = result.GroupByNumber(0).String()
 		r1 = result.GroupByNumber(1).String()
-		link := "https://vk.com/wall-27055949?q=%23" + r1
+		link := fmt.Sprintf("https://vk.com/wall%d?q=%%23%s", groupID, r1)
 		text = strings.Replace(text, result.String(), "["+r0+"]("+link+")", 1)
 		result, _ = hashtagGroup.FindStringMatch(text)
 	}
