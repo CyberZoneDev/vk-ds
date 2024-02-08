@@ -1,10 +1,10 @@
 package discord
 
 import (
-	"fmt"
 	"log"
 	"os"
 
+	"github.com/CyberZoneDev/vk-ds/discord/commands"
 	events "github.com/CyberZoneDev/vk-ds/discord/events/bot"
 	"github.com/bwmarrin/discordgo"
 )
@@ -31,7 +31,13 @@ func Init() *discordgo.Session {
 
 	err = discord.Open()
 	if err != nil {
-		fmt.Println("error opening connection,", err)
+		log.Fatalln("error opening connection,", err)
+	}
+
+	registerCommandHandlers(discord, commands.CommandHandlers)
+
+	if err != nil {
+		log.Fatalf("error creating slash commands: %v", err)
 	}
 
 	return discord
@@ -58,4 +64,27 @@ func SendPost(d *discordgo.Session, data PostData) {
 	} else {
 		log.Printf("Embed message sent | %s", data.PostURL)
 	}
+}
+
+func registerCommandHandlers(s *discordgo.Session, commandHandlers []commands.CommandHandler) {
+	log.Printf("registering %d command handlers", len(commandHandlers))
+	for _, handler := range commandHandlers {
+		cmd := handler.Command()
+		_, err := s.ApplicationCommandCreate(s.State.User.ID, "", cmd)
+		if err != nil {
+			log.Fatalf("error creating command %s: %v", cmd.Name, err)
+			continue
+		}
+	}
+	s.AddHandler(func(dg *discordgo.Session, i *discordgo.InteractionCreate) {
+		if i.Type == discordgo.InteractionApplicationCommand {
+			for _, handler := range commandHandlers {
+				if handler.Command().Name == i.ApplicationCommandData().Name {
+					handler.Handler(dg, i)
+					return
+				}
+			}
+		}
+	})
+
 }
