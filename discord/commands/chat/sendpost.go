@@ -24,6 +24,7 @@ type PostData struct {
 var log = utils.NewLogger("chat")
 
 func (h *SendPostHandler) Command() *discordgo.ApplicationCommand {
+	permission := int64(discordgo.PermissionViewAuditLogs)
 	return &discordgo.ApplicationCommand{
 		Name:        "sendpost",
 		Description: "Send post from VK to Discord",
@@ -35,6 +36,7 @@ func (h *SendPostHandler) Command() *discordgo.ApplicationCommand {
 				Required:    true,
 			},
 		},
+		DefaultMemberPermissions: &permission,
 	}
 }
 
