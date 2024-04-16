@@ -4,8 +4,8 @@ go 1.21.0
 
 require (
 	github.com/SevereCloud/vksdk/v2 v2.16.1
-	github.com/bwmarrin/discordgo v0.27.1
-	github.com/dlclark/regexp2 v1.10.0
+	github.com/bwmarrin/discordgo v0.28.1
+	github.com/dlclark/regexp2 v1.11.0
 	github.com/joho/godotenv v1.5.1
 )
 
@@ -15,7 +15,7 @@ require (
 	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/vmihailenco/msgpack/v5 v5.4.0 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
-	golang.org/x/crypto v0.0.0-20210421170649-83a5a9bb288b // indirect
-	golang.org/x/sys v0.5.0 // indirect
-	golang.org/x/text v0.13.0 // indirect
+	golang.org/x/crypto v0.22.0 // indirect
+	golang.org/x/sys v0.19.0 // indirect
+	golang.org/x/text v0.14.0 // indirect
 )

@@ -36,10 +36,6 @@ func Init() *discordgo.Session {
 
 	registerCommandHandlers(discord, commands.CommandHandlers)
 
-	if err != nil {
-		log.Fatalf("error creating slash commands: %v", err)
-	}
-
 	return discord
 
 }
@@ -73,7 +69,6 @@ func registerCommandHandlers(s *discordgo.Session, commandHandlers []commands.Co
 		_, err := s.ApplicationCommandCreate(s.State.User.ID, "", cmd)
 		if err != nil {
 			log.Fatalf("error creating command %s: %v", cmd.Name, err)
-			continue
 		}
 	}
 	s.AddHandler(func(dg *discordgo.Session, i *discordgo.InteractionCreate) {
@@ -86,5 +81,4 @@ func registerCommandHandlers(s *discordgo.Session, commandHandlers []commands.Co
 			}
 		}
 	})
-
 }

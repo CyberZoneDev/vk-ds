@@ -47,13 +47,17 @@ func (h *SendPostHandler) Handler(s *discordgo.Session, i *discordgo.Interaction
 	err := getPostData(&data, vk)
 	if err != nil {
 		log.Warnf("Error getting post data: %s", err)
-		s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+		err := s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 			Type: discordgo.InteractionResponseChannelMessageWithSource,
 			Data: &discordgo.InteractionResponseData{
 				Content: "Error getting post data",
 				Flags:   discordgo.MessageFlagsEphemeral,
 			},
 		})
+		if err != nil {
+			log.Warnf("Error sending message: %s", err)
+			return
+		}
 		return
 	}
 	embed := &discordgo.MessageEmbed{
@@ -70,17 +74,21 @@ func (h *SendPostHandler) Handler(s *discordgo.Session, i *discordgo.Interaction
 	}
 	_, err = s.ChannelMessageSendEmbed(i.ChannelID, embed)
 	if err != nil {
-		log.Warnf("Error sending message: %s", err)
+		log.Warnf("Error sending discord message: %s", err)
 		return
 	}
 
-	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+	err = s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 		Type: discordgo.InteractionResponseChannelMessageWithSource,
 		Data: &discordgo.InteractionResponseData{
 			Content: "Done!",
 			Flags:   discordgo.MessageFlagsEphemeral,
 		},
 	})
+	if err != nil {
+		log.Warnf("Error sending discord message: %s", err)
+		return
+	}
 }
 
 func getPostData(data *PostData, vk *api.VK) error {
@@ -109,7 +117,7 @@ func getPostData(data *PostData, vk *api.VK) error {
 		log.Fatalf("Error getting group: %s", err)
 	}
 
-	text := utils.SortTags(post[0].Text, int(post[0].OwnerID))
+	text := utils.SortTags(post[0].Text, post[0].OwnerID)
 	data.Author = group[0].Name
 	data.IconURL = group[0].Photo200
 	data.Text = text

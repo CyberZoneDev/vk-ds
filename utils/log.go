@@ -49,3 +49,7 @@ func (l *CustomLogger) Errorf(format string, args ...interface{}) {
 func (l *CustomLogger) Warnf(format string, args ...interface{}) {
 	l.Entry.Warnf(format, args...)
 }
+
+func (l *CustomLogger) Fatalf(format string, args ...interface{}) {
+	l.Entry.Fatalf(format, args...)
+}

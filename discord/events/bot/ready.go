@@ -7,7 +7,7 @@ import (
 )
 
 func OnReady(d *discordgo.Session, event *discordgo.Ready) {
-	d.UpdateStatusComplex(discordgo.UpdateStatusData{
+	err := d.UpdateStatusComplex(discordgo.UpdateStatusData{
 		Activities: []*discordgo.Activity{
 			{
 				Name: "Киберспорт РТУ МИРЭА",
@@ -16,5 +16,9 @@ func OnReady(d *discordgo.Session, event *discordgo.Ready) {
 			},
 		},
 	})
+	if err != nil {
+		log.Fatalf("Error updating discord status: %s", err)
+		return
+	}
 	log.Printf("Discord bot %s is ready!", event.User.String())
 }
