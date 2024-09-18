@@ -8,15 +8,23 @@ import (
 	re "github.com/dlclark/regexp2"
 )
 
-func SortTags(text string, groupID int) string {
-	var (
-		mentions     = re.MustCompile(`\[([^\s\|]+)+\|(.*?)\]`, 0)
-		subReg       = re.MustCompile(`^(?=id|club).*`, 0)
-		hashtag      = re.MustCompile(`(?<![\S])\#(\S+(?<!\.))`, 0)
-		hashtagGroup = re.MustCompile(`(?<!\[)\#(\S+(?<!\.))\@(\S+(?<!\.))`, 0)
-		links        = re.MustCompile(`(?<!\(|\[|http:\/\/|https:\/\/|www\.)(?=(?<=\s)[A-Za-z0-9.]+\.[A-Za-z](?!\.))[^\s\)\]\!\?\;]+(?<!\.)`, 0)
-	)
+var (
+	mentions     *re.Regexp
+	subReg       *re.Regexp
+	hashtag      *re.Regexp
+	hashtagGroup *re.Regexp
+	links        *re.Regexp
+)
 
+func init() {
+	mentions = re.MustCompile(`\[([^\s\|]+)+\|(.*?)\]`, 0)
+	subReg = re.MustCompile(`^(?=id|club).*`, 0)
+	hashtag = re.MustCompile(`(?<![\S])\#(\S+(?<!\.))`, 0)
+	hashtagGroup = re.MustCompile(`(?<!\[)\#(\S+(?<!\.))\@(\S+(?<!\.))`, 0)
+	links = re.MustCompile(`(?<!\(|\[|http:\/\/|https:\/\/|www\.)(?=(?<=\s)[A-Za-z0-9.]+\.[A-Za-z](?!\.))[^\s\)\]\!\?\;]+(?<!\.)`, 0)
+}
+
+func SortTags(text string, groupID int) string {
 	oldText := text
 	result, _ := mentions.FindStringMatch(text)
 	var r0, r1, r2 string

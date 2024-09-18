@@ -2,12 +2,12 @@ package main
 
 import (
 	"context"
-	"strconv"
-
-	// "fmt"
 	"log"
+	"net/http"
+	_ "net/http/pprof"
 	"os"
 	"os/signal"
+	"strconv"
 
 	"github.com/CyberZoneDev/vk-ds/discord"
 	"github.com/CyberZoneDev/vk-ds/utils"
@@ -22,6 +22,12 @@ func main() {
 	err := godotenv.Load(".env")
 	if err != nil && os.Getenv("RUN_TYPE") != "CONTAINER" {
 		log.Fatalf("Error loading .env: %s", err)
+	}
+
+	if os.Getenv("PPROF_ENABLE") == "true" {
+		go func() {
+			log.Println(http.ListenAndServe(":6060", nil))
+		}()
 	}
 
 	vkbot := vk.Init()
